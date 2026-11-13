@@ -1,0 +1,70 @@
+{
+  "format": 1,
+  "title": {
+    "en": "BZSJN DSH plugins",
+    "zh": "BZSJN DSH 插件源"
+  },
+  "description": {
+    "en": "DSH bundles published from github.com/bzsjn: whale balance widget plus (balance follows the active provider).",
+    "zh": "来自 github.com/bzsjn 的 DSH 插件：小鲸鱼余额挂件 plus（余额跟随当前使用的供应商）。"
+  },
+  "metadata": {
+    "categories": {
+      "balance": {
+        "title": {
+          "en": "Balance",
+          "zh": "余额"
+        }
+      }
+    },
+    "labels": {},
+    "sortKeys": {}
+  },
+  "plugins": [
+    {
+      "name": "dsh-whale-widget-plus",
+      "title": {
+        "en": "Whale Balance Widget Plus",
+        "zh": "小鲸鱼余额挂件 plus"
+      },
+      "description": {
+        "en": "Same whale widget you know, but the number follows the provider you are actually using: reads agent-default-model, resolves the matching model entry, queries its balance endpoint (auto-detected for common relay shapes), forces CNY display, and hides the peak/off-peak rows that only apply to official DeepSeek pricing. Falls back to the original DeepSeek balance on any failure.",
+        "zh": "沿用原小鲸鱼挂件的全部功能，但余额数字跟随你实际在用的供应商：读取 agent-default-model、匹配模型条目、查询其余额接口（常见中转站形态自动探测）、强制按人民币显示，并在非官方供应商下隐藏只对 DeepSeek 官方计价有意义的峰谷行。任一步失败即回退原版 DeepSeek 余额。"
+      },
+      "icon": "icon.png",
+      "author": "bzsjn",
+      "homepage": "https://github.com/bzsjn/dsh-whale-widget-plus#readme",
+      "repository": {
+        "url": "https://github.com/bzsjn/dsh-whale-widget-plus"
+      },
+      "metadata": {
+        "category": "balance",
+        "keywords": [
+          "dsh",
+          "deepseek-harness",
+          "balance",
+          "widget",
+          "provider-follow",
+          "sub2api",
+          "relay"
+        ],
+        "labels": [],
+        "sortKeys": {}
+      },
+      "versions": [
+        {
+          "version": "0.5.0",
+          "publishTimestamp": 1794570000,
+          "source": {
+            "type": "git",
+            "url": "https://github.com/bzsjn/dsh-whale-widget-plus",
+            "commit": "b68df4e3c23202c85ea9e23d1828d18b9e98fb74"
+          },
+          "engines": {
+            "dsh": ">=0.2.1-rc.1 <0.3.0"
+          }
+        }
+      ]
+    }
+  ]
+}
