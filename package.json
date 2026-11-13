@@ -1,0 +1,41 @@
+{
+  "name": "dsh-whale-widget-plus",
+  "version": "0.5.0",
+  "description": "小鲸鱼挂件 plus：余额跟随当前使用的供应商、余额端点自动探测、多厂商余额并行；沿用原版全部功能（气泡点击序列/峰谷/音效/角色）",
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "deepseek-harness",
+    "balance",
+    "widget",
+    "plus",
+    "provider-follow",
+    "sub2api"
+  ],
+  "type": "module",
+  "main": "lib/index.js",
+  "icon": "./icon.png",
+  "files": [
+    "lib",
+    "assets",
+    "icon.png",
+    "cordis.patch.yml",
+    "README.md",
+    "README-PLUS.md",
+    "PROVENANCE.md"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bzsjn/dsh-whale-widget-plus.git"
+  },
+  "bugs": {
+    "url": "https://github.com/bzsjn/dsh-whale-widget-plus/issues"
+  },
+  "homepage": "https://github.com/bzsjn/dsh-whale-widget-plus#readme",
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "license": "MIT"
+}
