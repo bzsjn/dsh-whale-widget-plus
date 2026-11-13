@@ -354,6 +354,20 @@ var ANIM_MS = 700
 var BUBBLE_MS = 5000
 var FETCH_TIMEOUT_MS = 25000
 var BALANCE_URL = '/dsh-whale/balance.json'
+// plus：当前供应商标签（宿主在 balance.json 里下发 activeProvider；空串=回退 DeepSeek 文案）
+var activeProvLabel = ''
+// plus：非官方供应商时隐藏峰谷模块（峰谷价只对 DeepSeek 官方计价有效）
+var hidePeakModules = false
+// 过滤掉峰谷模块；若过滤后为空，退回一个余额模块，避免渲染成空泡
+function bubbleModulesForRender(mods) {
+  var list = Array.isArray(mods) ? mods : []
+  if (!hidePeakModules) return list
+  var out = list.filter(function (m) {
+    return !(m && (m.type === 'peak' || m.type === 'nextpeak'))
+  })
+  if (!out.length) return [{ type: 'balance', size: 6, tpl: '{balance_ds}' }]
+  return out
+}
 var SIZE_URL = '/dsh-whale/size.json'
 var IMG_URL = '/dsh-whale/image.png?v=2'
 var GIF_URL = '/dsh-whale/rua.gif'
@@ -13844,7 +13858,7 @@ var textBox = document.createElement('div')
 textBox.className = 'dshwv-text'
 var labelEl = document.createElement('div')
 labelEl.className = 'dshwv-label'
-labelEl.textContent = 'DeepSeek 余额'
+labelEl.textContent = activeProvLabel || 'DeepSeek 余额'
 var amountEl = document.createElement('div')
 amountEl.className = 'dshwv-amount'
 var hintEl = document.createElement('div')
@@ -14261,7 +14275,7 @@ function restoreBubbleLines() {
   // 后续 setHint 首次直写分支不碰 opacity → 今日已用整行透明消失。
   labelEl.style.display = ''
   labelEl.className = 'dshwv-label'
-  labelEl.textContent = 'DeepSeek 余额'
+  labelEl.textContent = activeProvLabel || 'DeepSeek 余额'
   labelEl.style.color = ''
   labelEl.style.opacity = ''
   amountEl.style.display = ''
@@ -18592,13 +18606,14 @@ function bubbleRenderModules(mods) {
     // "已显示"标记放在这里取；其它场景/关闭路径会把 bubbleScene 置空或换 kind，因此
     // 该标记不可能残留成"其实没显示却以为在显示"。
     waitShown = !!(bubbleScene && bubbleScene.kind === 'wait')
-    bubbleLiveMods = Array.isArray(mods) ? mods.slice() : null
+    var shownMods = bubbleModulesForRender(mods)
+    bubbleLiveMods = Array.isArray(shownMods) ? shownMods.slice() : null
     // 清掉旧模块行,隐藏老三行与 gif(它们仍保留在 DOM 供普通场景使用)
     gifEl.style.display = 'none'
     labelEl.style.display = 'none'
     amountEl.style.display = 'none'
     hintEl.style.display = 'none'
-    bubbleRowsTo(textBox, mods)
+    bubbleRowsTo(textBox, shownMods)
   } catch (err) {}
 }
 // 编辑器真实泡泡预览:用与真实相同的宽度 B 排版(保证换行判定一致),
@@ -19245,6 +19260,9 @@ function refresh(manual) {
         var currencyChanged = state.currency !== null && nc !== state.currency
         state.balance = nb
         state.currency = nc
+        // plus：标题跟随当前供应商（宿主下发 activeProvider）
+        try { activeProvLabel = data.activeProvider ? (String(data.activeProvider) + ' 余额') : '' } catch (err) {}
+        try { hidePeakModules = !!data.activeProvider } catch (err) {}
         state.message = ''
         balanceRetryLeft = 2
         state.todayUsage = data.todayUsage !== undefined ? data.todayUsage : null

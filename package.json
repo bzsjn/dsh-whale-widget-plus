@@ -32,6 +32,9 @@
     "url": "https://github.com/bzsjn/dsh-whale-widget-plus/issues"
   },
   "homepage": "https://github.com/bzsjn/dsh-whale-widget-plus#readme",
+  "engines": {
+    "dsh": ">=0.2.1-rc.1 <0.3.0"
+  },
   "dsh": {
     "bundle": {
       "patch": "./cordis.patch.yml"
